@@ -21,7 +21,7 @@
  * entirely while developing — the UI still reports success.
  */
 const LEAD_ENDPOINT =
-  import.meta.env.VITE_LEAD_ENDPOINT || 'https://chennaiclinic.bonitaa.co.in/skin/api/email.php'
+  import.meta.env.VITE_LEAD_ENDPOINT || 'https://adgrohairgloskinkovilpatti.com/api/email.php'
 const DELIVERY_OFF = LEAD_ENDPOINT === 'off'
 
 /* How long the visitor waits before being thanked regardless. */
