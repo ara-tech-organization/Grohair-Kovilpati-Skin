@@ -1,5 +1,5 @@
 /**
- * Builds the favicon from the red "g" of the gloskin wordmark in
+ * Builds the favicon from the hair-follicle mark inside the "gro" of the grohair wordmark in
  * src/assets/Logo.png. The source logo is never written to â€” this only reads it.
  *
  * The full lockup is unreadable at 32px, so the icon is the one letterform that
@@ -12,13 +12,27 @@
 import sharp from 'sharp'
 
 const SRC = 'src/assets/Logo.png'
-const GLYPH = { left: 594, top: 470, width: 58, height: 105 }
+const GLYPH = { left: 240, top: 392, width: 68, height: 142 }
 const WHITE = { r: 255, g: 255, b: 255, alpha: 1 }
 
 async function main() {
-  const pad = Math.round(GLYPH.height * 0.22)
+  const pad = Math.round(GLYPH.height * 0.14)
   const side = GLYPH.height + pad * 2
-  const mark = await sharp(SRC).extract(GLYPH).png().toBuffer()
+  /* The crop clips the foot of the "A" in ADVANCED, top right of the follicle.
+     It is whitened out rather than cropped away, since the ring beside it
+     reaches the same column. */
+  const { data, info } = await sharp(SRC)
+    .extract(GLYPH)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  for (let y = 0; y < Math.min(28, info.height); y++) {
+    for (let x = 48; x < info.width; x++) {
+      const i = (y * info.width + x) * info.channels
+      data[i] = data[i + 1] = data[i + 2] = 255
+    }
+  }
+  const mark = await sharp(data, { raw: info }).png().toBuffer()
 
   /* Composite first, resize second — sharp resizes before it composites, which
      would leave the glyph at its original size in a scaled-up tile. */
