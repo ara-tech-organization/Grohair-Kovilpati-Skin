@@ -54,7 +54,7 @@ function CallDialog({ branch, onCancel }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onCancel])
 
-  const target = branch ? `${branch}, Chennai` : 'Chennai'
+  const target = branch ? `${branch}, Tamil Nadu` : 'Kovilpatti'
 
   return (
     <div className="overlay is-open" onClick={onCancel}>

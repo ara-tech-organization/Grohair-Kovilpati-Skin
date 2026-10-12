@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import logo from '../assets/Logo.png'
+import logo from '../assets/logo-trim.png'
 import { CLINIC } from '../data'
 import { scrollToBooking } from '../callStore'
 import { useActiveSection, useScrollLock, useScrolledPast } from '../hooks'
@@ -26,9 +26,24 @@ const NAV = [
    spy found nothing else in view. */
 const SECTION_IDS = NAV.filter((item) => item.href !== '#top').map((item) => item.href.slice(1))
 
+/* What the spy watches, which is not the same as what the menu lists.
+   Booking sits between the hero and About and has no menu item of its own, but
+   the spy still has to know it is down there. Without it a visitor at the
+   booking form matched no section at all, `active` fell back to empty, and the
+   nav lit up Home while they were looking at something well below the fold —
+   which is exactly what anyone arriving on /skin/consultation saw.
+
+   Page order, not menu order. `resolve` keeps the last id whose top has passed
+   the offset, so the list has to read top to bottom, and Booking is above
+   About. */
+const SPY_IDS = ['book', ...SECTION_IDS]
+
 export default function Header() {
   const stuck = useScrolledPast(24)
-  const active = useActiveSection(SECTION_IDS)
+  const active = useActiveSection(SPY_IDS)
+  /* No nav link matches, so the CTA is the only thing in the header that can
+     show it. `active` being truthy is also what stops Home lighting up. */
+  const atBooking = active === 'book'
   const [open, setOpen] = useState(false)
 
   const burgerRef = useRef(null)
@@ -58,7 +73,7 @@ export default function Header() {
     <header className={`hdr${stuck ? ' is-stuck' : ''}`}>
       <div className="shell hdr__inner">
         <a href="#top" className="hdr__logo" aria-label={`${CLINIC.name} — home`}>
-          <img src={logo} alt={CLINIC.name} width="196" height="49" />
+          <img src={logo} alt={CLINIC.name} width="96" height="49" />
         </a>
 
         <nav className="hdr__nav" aria-label="Sections">
@@ -90,7 +105,12 @@ export default function Header() {
             <strong className="hdr__phone-num">{CLINIC.phoneDisplay}</strong>
           </CallLink>
 
-          <button type="button" className="btn btn--gold hdr__cta" onClick={scrollToBooking}>
+          <button
+            type="button"
+            className={`btn btn--gold hdr__cta${atBooking ? ' is-active' : ''}`}
+            aria-current={atBooking ? 'true' : undefined}
+            onClick={scrollToBooking}
+          >
             Book a Consultation
           </button>
 
@@ -119,7 +139,7 @@ export default function Header() {
           aria-label="Mobile menu"
         >
           <div className="drawer__top">
-            <img className="drawer__logo" src={logo} alt={CLINIC.name} width="196" height="49" />
+            <img className="drawer__logo" src={logo} alt={CLINIC.name} width="96" height="49" />
             <button
               type="button"
               ref={closeRef}
@@ -147,7 +167,8 @@ export default function Header() {
           ))}
           <button
             type="button"
-            className="btn btn--gold btn--block drawer__cta"
+            className={`btn btn--gold btn--block drawer__cta${atBooking ? ' is-active' : ''}`}
+            aria-current={atBooking ? 'true' : undefined}
             onClick={() => {
               setOpen(false)
               scrollToBooking()

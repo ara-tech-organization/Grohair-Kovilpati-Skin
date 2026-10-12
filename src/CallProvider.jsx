@@ -5,7 +5,7 @@ import { CallContext } from './callStore'
  * Routes every call action through one confirmation modal, so the dialer never
  * opens without the patient seeing which clinic they are calling.
  *
- * `pendingBranch`: undefined = idle, null = generic Chennai, string = branch.
+ * `pendingBranch`: undefined = idle, null = generic Kovilpatti, string = branch.
  */
 export default function CallProvider({ children }) {
   const [pendingBranch, setPendingBranch] = useState(undefined)

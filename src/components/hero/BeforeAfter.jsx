@@ -5,12 +5,7 @@ import shot3 from '../../assets/result-3-acne-scars-smoothed.jpg'
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion'
 
 /* Three cases, imported directly rather than through data.js — the hero is the
-   eager bundle, and pulling the whole RESULTS array in would ship every case.
-
-   They are the first three RESULTS entries, file for file and label for label,
-   so the two stay in step: change one and the same change is made in the other,
-   never a re-match. The treatment names carry the same caveat documented on
-   RESULTS — they are read off the visible concern, not supplied by the clinic. */
+   eager bundle, and pulling the whole RESULTS array in would ship them all. */
 const CASES = [
   { src: shot1, treatment: 'Pigmentation Treatment' },
   { src: shot2, treatment: 'Acne Treatment' },
@@ -51,7 +46,7 @@ export default function BeforeAfter() {
             key={item.src}
             className={`ba__shot${n === i ? ' is-on' : ''}`}
             src={item.src}
-            alt={n === i ? `Before and after — ${item.treatment} at our Chennai clinic` : ''}
+            alt={n === i ? `Before and after — ${item.treatment} at our Kovilpatti clinic` : ''}
             aria-hidden={n === i ? undefined : true}
             /* The first case is on screen immediately; the rest are only ever
                needed a few seconds later. */

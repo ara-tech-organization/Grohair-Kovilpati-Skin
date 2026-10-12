@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { HOME, sectionFromPath, sectionPath } from '../basePath'
 
 /**
  * App-level smooth scrolling. A module-level handle lets non-React callers
@@ -104,43 +105,28 @@ export default function useSmoothScroll(enabled = true) {
   }, [enabled])
 }
 
-/*
- * Where the app is mounted — "/" on the domain root, "/<repo>/" on a GitHub
- * Pages project site. Always ends in a slash.
- *
- * Every path this module writes is built on it. Pushing a bare "/treatments"
- * under a sub-path deployment puts the address bar *outside* the app: the URL
- * still looks plausible, but a refresh or a shared copy of it asks the host for
- * something that was never deployed there.
- */
-const BASE = import.meta.env.BASE_URL
-
-/*
- * Paths that do not name an element id directly.
- *
- * `/consultation` is the address every Book button writes. It names what the
- * visitor came to do rather than the markup it lands on — and it lands on the
- * form card, not the section: stacked on a phone the booking section opens with
- * its heading, so `#book` would arrive with the form still a screen below.
- */
-const PATH_ALIASES = { consultation: 'book-form' }
-
 /** Rewrites the address bar without navigating or touching the scroll. */
-function setPath(path) {
+export function setPath(path) {
   if (window.location.pathname === path) return
   window.history.pushState({}, '', path + window.location.search)
 }
 
-/**
- * Rewrites the address bar to a named part of this page — `setSectionPath()`
- * for the top, `setSectionPath('consultation')` for the booking form.
+/*
+ * Where "go to booking" actually lands, shared by everything that goes there.
  *
- * Exported so the Book buttons can write their own path without rebuilding the
- * base themselves. They are ordinary buttons rather than links, so nothing
- * else would put them in the address bar.
+ * The form card rather than the section: stacked on mobile, #book opens with
+ * the assurances copy and the form is still a screen below, so stopping at
+ * #book arrives somewhere other than the thing the button names.
+ *
+ * Exported because two paths need to agree — the click (scrollToBooking) and
+ * the load below, which is what a pasted /skin/consultation goes through. If
+ * they resolved the target separately, the shared link would quietly land a
+ * screen off from where the button puts you.
  */
-export function setSectionPath(name = '') {
-  setPath(BASE + name)
+export const BOOKING_OFFSET = -100
+
+export function bookingTarget() {
+  return document.getElementById('book-form') ?? document.getElementById('book')
 }
 
 /**
@@ -179,13 +165,15 @@ export function useCleanAnchors() {
          under the fixed header, so offsetting it would leave a gap above. */
       if (hash === '#top') {
         smoothScrollTo(0)
-        setPath(BASE)
+        setPath(HOME)
       } else {
         scrollToSection(target)
-        /* `#treatments` becomes `/treatments`. A path rather than a fragment:
-           it reads as a page on a site that only has one, and it is what
-           analytics can report on as a section view. */
-        setPath(BASE + hash.slice(1))
+        /* `#treatments` becomes `/skin/treatments`. A path rather than a
+           fragment: it reads as a page on a site that only has one, and it is
+           what analytics can report on as a section view. The folder is part of
+           it — see src/basePath.js — because this URL is one a visitor can
+           reload or share, and the server only serves what is under /skin/. */
+        setPath(sectionPath(hash.slice(1)))
       }
     }
 
@@ -193,29 +181,25 @@ export function useCleanAnchors() {
     return () => document.removeEventListener('click', onClick)
   }, [])
 
-  /* Two ways in from outside, both handled here.
-
-     A fragment — a shared or bookmarked `#about`. The browser has already
-     jumped there, so this only rewrites the URL into the path form.
-
-     A path — `/about`, opened or refreshed directly. Nothing scrolls on its
-     own, so the section has to be found and scrolled to. Section ids exist
-     from the first render even while a section is still a lazy placeholder,
-     which is what makes this work before anything below the fold has mounted. */
+  
   useEffect(() => {
     const { hash, pathname } = window.location
-    /* The section name with the mount point taken off the front, so `/about`
-       and `/Bonitaa-Chennai-Skin/about` both resolve to `about`. */
-    const withinApp = pathname.startsWith(BASE) ? pathname.slice(BASE.length) : pathname.slice(1)
-    const name = hash ? hash.slice(1) : withinApp.replace(/\/$/, '')
-    if (!name) return
+    /* The folder is stripped before the id is used: `/skin/about` is the
+       section `about`, and getElementById('hair/about') would find nothing. */
+    const id = hash ? hash.slice(1) : sectionFromPath(pathname)
+    if (!id) return
 
-    const target = document.getElementById(PATH_ALIASES[name] ?? name)
+    /* Booking resolves to the form card, exactly as the Book buttons do — see
+       bookingTarget. Everything else is its own section element. */
+    const isBooking = id === 'book'
+    const target = isBooking ? bookingTarget() : document.getElementById(id)
     if (!target) return
 
-    if (hash) window.history.replaceState(null, '', `${BASE}${name}`)
+    if (hash) window.history.replaceState(null, '', sectionPath(id))
     /* After paint, so the observer-driven sections have had their first pass
        and the scroll lands on real content rather than a reserved height. */
-    requestAnimationFrame(() => scrollToSection(target))
+    requestAnimationFrame(() =>
+      scrollToSection(target, isBooking ? BOOKING_OFFSET : undefined),
+    )
   }, [])
 }

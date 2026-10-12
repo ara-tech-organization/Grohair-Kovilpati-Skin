@@ -12,6 +12,7 @@ import ActionBar from './components/ActionBar'
 import TrustBar from './components/TrustBar'
 import usePrefersReducedMotion from './hooks/usePrefersReducedMotion'
 import useSmoothScroll, { useCleanAnchors } from './hooks/useSmoothScroll'
+import { HOME, sectionPath } from './basePath'
 import './App.css'
 
 /* Everything from About down is below the fold on every viewport, so it ships
@@ -23,18 +24,16 @@ const Services = lazy(() => import('./components/Services'))
 const WhyUs = lazy(() => import('./components/WhyUs'))
 const Reviews = lazy(() => import('./components/Reviews'))
 const Faq = lazy(() => import('./components/Faq'))
-const FinalCta = lazy(() => import('./components/FinalCta'))
 const Footer = lazy(() => import('./components/Footer'))
 
 /* Pushed on submit so analytics has a URL for the conversion, and popped when
    the visitor leaves the confirmation. Nothing is served at this path — it is
    a history entry over the landing page, not a document.
 
-   Built on BASE_URL so it stays inside the app wherever it is mounted: on a
-   GitHub Pages project site a bare "/thank-you" points at the organisation
-   root, outside anything this repo deployed. */
-const BASE = import.meta.env.BASE_URL
-const THANK_YOU_PATH = `${BASE}thank-you`
+   Carries the app's folder ('/skin/thank-you'): a bare '/thank-you' would point
+   outside it, so a visitor who reloads the confirmation — or a GTM trigger
+   matching on the path — would be looking at a URL the server cannot serve. */
+const THANK_YOU_PATH = sectionPath('thank-you')
 
 export default function App() {
   const reduced = usePrefersReducedMotion()
@@ -58,7 +57,7 @@ export default function App() {
   const hideThanks = () => {
     setThanked(false)
     if (window.location.pathname === THANK_YOU_PATH) {
-      window.history.pushState({}, '', BASE)
+      window.history.pushState({}, '', HOME)
     }
   }
 
@@ -100,12 +99,6 @@ export default function App() {
 
         <LazySection anchorId="faq" minHeight={620}>
           <Faq />
-        </LazySection>
-
-        {/* No anchor — nothing in the nav points here. It is the page's
-            closing ask, met by scrolling to the end rather than jumped to. */}
-        <LazySection minHeight={360}>
-          <FinalCta />
         </LazySection>
       </main>
 

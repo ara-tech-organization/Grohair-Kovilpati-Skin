@@ -15,15 +15,12 @@ export default function Services() {
             Our Treatments
           </span>
           <h2>
-            Treatments <span className="gold-text">We Offer</span>
+            Skin Treatments We Offer in <span className="gold-text">Kovilpatti</span>
           </h2>
+          <p>Six proven solutions, matched to your specific skin concern.</p>
           <div className="rule" />
         </div>
 
-        {/* Three columns, but the middle one rides low — the six cards sit on
-            two staggered baselines instead of a flat 3×2 block. The stagger is
-            the whole change here; the cards themselves are the page's standard
-            treatment card, unnumbered. */}
         <div className="services__grid">
           {SERVICES.map((service, i) => (
             <article
@@ -41,15 +38,14 @@ export default function Services() {
           ))}
         </div>
 
-        {/* The brief gives this block one line and a button, so the second
-            line the layout used to carry is gone rather than reworded. */}
         <div className="services__cta reveal">
           <div>
-            <strong>Not Sure Which Treatment You Need?</strong>
+            <strong>Not sure which treatment you need?</strong>
+            <span>Our specialist will tell you after a skin assessment — no guesswork.</span>
           </div>
           <CallLink className="btn btn--gold">
             <Icon name="PhoneCall" size={17} />
-            Speak to Our Specialist
+            Ask Our Specialist
           </CallLink>
         </div>
       </div>

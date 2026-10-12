@@ -1,48 +1,48 @@
 /* ==========================================================================
-   Bonitaa Skin and Hair Care — Chennai
+   Advanced Grohair & Gloskin — Kovilpatti
    Design tokens + base layer. Palette is sampled from src/assets/Logo.png
-   (gold gradient wordmark) on a white ground.
+   (brand red) on a white ground. Token names keep the old "gold" prefix.
    ========================================================================== */
 
 :root {
-  /* Gold — sampled from the logo gradient, dark bronze → highlight */
-  --gold-900: #6f4f10;
-  --gold-800: #8b6514;
-  --gold-700: #a67c1a;
-  --gold-600: #c9a227;
-  --gold-500: #d8ae36;
-  --gold-400: #e5c558;
-  --gold-300: #f0da96;
-  --gold-200: #f7ebc8;
-  --gold-100: #fcf6e7;
-  --gold-050: #fefbf3;
+  /* "Gold" tokens now hold the brand red scale, dark → light */
+  --gold-900: #6b0f14;
+  --gold-800: #8f141b;
+  --gold-700: #b8161e;
+  --gold-600: #d71920;
+  --gold-500: #ed2229;
+  --gold-400: #f2575c;
+  --gold-300: #f7a3a6;
+  --gold-200: #fbd3d4;
+  --gold-100: #fdeaea;
+  --gold-050: #fff6f6;
 
   /* Champagne / rose-gold — hero palette, pulled from the logo's own gradient
      rather than a separate brand colour. Warm and desaturated: no pink. */
-  --champ-800: #6d5027;
-  --champ-700: #8a6a3d;
-  --champ-600: #a8845a;
-  --champ-500: #c9a878;
-  --champ-400: #ddc09b;
-  --champ-300: #ecd9bd;
-  --champ-200: #f5e8d6;
-  --champ-100: #faf2e7;
-  --champ-050: #fdf9f3;
+  --champ-800: #5a1d20;
+  --champ-700: #7d2b30;
+  --champ-600: #a34a4f;
+  --champ-500: #c98083;
+  --champ-400: #dfa9ab;
+  --champ-300: #eccaca;
+  --champ-200: #f6e1e1;
+  --champ-100: #fbefef;
+  --champ-050: #fef8f8;
 
-  --peach: #f6e0cc;
-  --ivory: #fffaf4;
-  --beige: #f5ede3;
+  --peach: #fbe3e1;
+  --ivory: #fffafa;
+  --beige: #faf0ef;
 
   /* Ink + neutrals */
-  --ink: #171208;
-  --ink-soft: #3d3628;
-  --body: #5f584c;
-  --muted: #8a8377;
-  --line: #ece6da;
-  --line-soft: #f4f0e7;
+  --ink: #1c1112;
+  --ink-soft: #3f3234;
+  --body: #62575a;
+  --muted: #8b8082;
+  --line: #efe3e3;
+  --line-soft: #f7efef;
 
   --white: #ffffff;
-  --cream: #fdfaf4;
+  --cream: #fffafa;
 
   /* Signature gradients */
   --grad-gold: linear-gradient(
@@ -78,11 +78,11 @@
   --cta-ink: #fffdf8;
 
   /* Elevation — warm-tinted so it sits inside the gold system */
-  --sh-xs: 0 1px 2px rgba(23, 18, 8, 0.04);
-  --sh-sm: 0 2px 10px rgba(23, 18, 8, 0.05);
-  --sh-md: 0 10px 30px -12px rgba(23, 18, 8, 0.12);
-  --sh-lg: 0 24px 60px -24px rgba(23, 18, 8, 0.18);
-  --sh-gold: 0 14px 34px -12px rgba(166, 124, 26, 0.42);
+  --sh-xs: 0 1px 2px rgba(28, 17, 18, 0.04);
+  --sh-sm: 0 2px 10px rgba(28, 17, 18, 0.05);
+  --sh-md: 0 10px 30px -12px rgba(28, 17, 18, 0.12);
+  --sh-lg: 0 24px 60px -24px rgba(28, 17, 18, 0.18);
+  --sh-gold: 0 14px 34px -12px rgba(184, 22, 30, 0.42);
 
   --r-sm: 10px;
   --r-md: 16px;
@@ -429,7 +429,7 @@ html {
 
 .btn--gold:hover {
   background-position: 100% 50%;
-  box-shadow: 0 18px 40px -12px rgba(166, 124, 26, 0.55);
+  box-shadow: 0 18px 40px -12px rgba(184, 22, 30, 0.55);
 }
 
 /* Sheen sweep */
@@ -540,26 +540,25 @@ html {
 
    `.results__head` nests its copy one level deeper, beside the rail arrows. */
 
-/* The wrapper is only the observer target — all motion belongs to the parts.
-   `.reviews__band` nests its parts one level deeper, the same way
-   `.results__head` does: heading in one half, score and call in the other.
-   The beats below are unchanged — only the selectors follow the markup. */
+/* The wrapper is only the observer target — all motion belongs to the parts. */
 .section-head.reveal,
 .results__head.reveal,
-.reviews__band.reveal {
+.reviews__aside.reveal {
   opacity: 1;
   animation: none;
 }
 
 .section-head > *,
 .results__head > div > *,
-.reviews__band > div > * {
+.results__head > .rr__seal,
+.reviews__aside > * {
   opacity: 0;
 }
 
 .section-head.is-in > *,
 .results__head.is-in > div > *,
-.reviews__band.is-in > div > * {
+.results__head.is-in > .rr__seal,
+.reviews__aside.is-in > * {
   opacity: 1;
   animation: reveal-in 0.75s var(--ease) backwards;
 }
@@ -567,7 +566,7 @@ html {
 /* Beat order, shared by every heading block. */
 .section-head.is-in > .eyebrow,
 .results__head.is-in > div > .eyebrow,
-.reviews__band.is-in > div > .eyebrow {
+.reviews__aside.is-in > .eyebrow {
   animation-name: reveal-tag;
   animation-delay: 60ms;
 }
@@ -581,7 +580,7 @@ html {
 
 .section-head.is-in > h2,
 .results__head.is-in > div > h2,
-.reviews__band.is-in > div > h2 {
+.reviews__aside.is-in > h2 {
   animation-delay: 170ms;
 }
 
@@ -598,15 +597,17 @@ html {
 }
 
 .section-head.is-in > p,
-.results__head.is-in > div > p {
+.results__head.is-in > div > p,
+.reviews__aside.is-in > .reviews__intro {
   animation-delay: 380ms;
 }
 
-.reviews__band.is-in > div > .score {
+.reviews__aside.is-in > .score {
   animation-delay: 300ms;
 }
 
-.reviews__band.is-in > div > .btn {
+.results__head.is-in > .rr__seal,
+.reviews__aside.is-in > .btn {
   animation-delay: 470ms;
 }
 
@@ -629,7 +630,7 @@ html {
   right: 0;
   width: min(460px, 42vw);
   height: min(460px, 42vw);
-  background: radial-gradient(circle at 70% 30%, rgba(216, 174, 54, 0.13), transparent 62%);
+  background: radial-gradient(circle at 70% 30%, rgba(237, 34, 41, 0.13), transparent 62%);
   pointer-events: none;
 }
 
@@ -644,7 +645,7 @@ html {
   bottom: 0;
   width: min(300px, 30vw);
   height: 190px;
-  background-image: radial-gradient(rgba(166, 124, 26, 0.16) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(184, 22, 30, 0.16) 1px, transparent 1px);
   background-size: 17px 17px;
   mask-image: linear-gradient(to top right, #000, transparent 72%);
   -webkit-mask-image: linear-gradient(to top right, #000, transparent 72%);
@@ -676,7 +677,8 @@ html {
   .reveal,
   .section-head > *,
   .results__head > div > *,
-  .reviews__band > div > * {
+  .results__head > .rr__seal,
+  .reviews__aside > * {
     opacity: 1;
     transform: none;
   }

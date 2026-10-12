@@ -6,16 +6,11 @@
  * DELIVERY — posts to the clinic's own mail handler, which sends the notifying
  * email and forwards a row to the Google Sheet.
  *
- * It lives inside the site's own folder — chennaiclinic.bonitaa.co.in/skin/ —
- * so on Hostinger this is same-origin and no preflight is involved at all.
- * public/.htaccess leaves `^api/` alone precisely so the PHP is reached rather
- * than rewritten into index.html.
- *
- * Absolute all the same, not relative. The same bundle is served from places
- * with no PHP behind them — the GitHub Pages preview, the dev server — where a
- * relative `api/email.php` resolves against the wrong origin and 404s. Written
- * out in full it reaches the clinic's handler from anywhere; the handler
- * answers OPTIONS and sends `Access-Control-Allow-Origin` for those cases.
+ * Absolute, not relative. A relative path only works when the site is served
+ * from the same host as the PHP, and it is not: the build is a static bundle
+ * (GitHub Pages / Vercel) with no PHP behind it, so `/api/email.php` there is
+ * a 404 — and so is `/api` on the dev server. Cross-origin is what the handler
+ * expects anyway; it answers OPTIONS and sends `Access-Control-Allow-Origin`.
  *
  * https, not http. The endpoint was given as `http://`, but a page served over
  * https is not allowed to post to it — browsers block mixed content outright,
@@ -67,25 +62,21 @@ const SOURCE_LABEL = {
 /**
  * Maps the form's answers onto the handler's payload.
  *
- * The shape is the handler's, exactly: {name, phone, city, branch, date,
- * source}. It is not the form's shape and must not be reduced to it — a key
- * the handler requires and does not receive is rejected as "Missing required
- * fields", and rejected *silently*, because the visitor is thanked before the
- * answer arrives (see ACK_MS below).
+ * One key per question, and nothing else. `email`, `time`, `treatment` and
+ * `message` are gone: the form asks for a phone rather than an email, because
+ * the page promises a callback; the Morning/Afternoon/Evening choice became a
+ * date picker; and treatment was never asked. Sending them as empty strings
+ * only put blank rows in the notification and blank columns in the sheet.
  *
- * Nothing else is sent. `email`, `time`, `treatment` and `message` are gone:
- * the form asks for a phone rather than an email, because the page promises a
- * callback; the Morning/Afternoon/Evening choice is a date picker; and
- * treatment was never asked. Sending a key the form cannot fill only puts
- * blank rows in the notification email and blank columns in the sheet.
- *
- * Set VITE_LEAD_ENDPOINT=off to exercise the UI without delivering.
+ * ⚠ This shape requires the updated email.php. The handler that rejects an
+ * empty `time` or `treatment` will refuse every one of these as "Missing
+ * required fields" — the two have to ship together.
  */
 function toApiPayload(lead) {
   return {
     name: lead.name ?? '',
     phone: lead.phone ?? '',
-    city: lead.city?.trim() ?? '',
+    city: lead.city ?? '',
     branch: lead.branch ?? '',
     date: lead.date ?? '',
     source: SOURCE_LABEL[lead.source] ?? lead.source ?? 'Website Form',

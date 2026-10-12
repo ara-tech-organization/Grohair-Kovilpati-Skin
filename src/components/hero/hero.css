@@ -15,12 +15,12 @@
 
   /* Warm near-black, deliberately not navy — it is --ink taken darker, so the
      hero reads as the same brand at low key rather than a different one. */
-  --hero-bg: #14100a;
-  --hero-lift: #241c10;
-  --hero-ink: #fdf8ee;
-  --hero-soft: rgba(253, 248, 238, 0.74);
-  --hero-muted: rgba(253, 248, 238, 0.48);
-  --hero-line: rgba(229, 197, 88, 0.28);
+  --hero-bg: #1a0a0b;
+  --hero-lift: #2b1011;
+  --hero-ink: #fff8f8;
+  --hero-soft: rgba(255, 248, 248, 0.74);
+  --hero-muted: rgba(255, 248, 248, 0.48);
+  --hero-line: rgba(242, 87, 92, 0.28);
   /* The print in the frame stays paper — it is a photograph, not chrome. */
   --paper: #fefefe;
 
@@ -32,7 +32,7 @@
   overflow: hidden;
   isolation: isolate;
   color: var(--hero-ink);
-  background: linear-gradient(158deg, var(--hero-lift) 0%, var(--hero-bg) 46%, #0d0a06 100%);
+  background: linear-gradient(158deg, var(--hero-lift) 0%, var(--hero-bg) 46%, #0f0506 100%);
   /* Top clears the 84px fixed header. */
   padding-block: clamp(116px, 13vh, 168px) clamp(76px, 11vh, 124px);
 }
@@ -54,7 +54,7 @@
   height: clamp(300px, 38vw, 560px);
   top: -14%;
   left: -6%;
-  background: radial-gradient(circle, rgba(216, 174, 54, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(237, 34, 41, 0.3) 0%, transparent 70%);
 }
 
 .hero::after {
@@ -62,7 +62,7 @@
   height: clamp(220px, 30vw, 440px);
   right: -5%;
   bottom: -12%;
-  background: radial-gradient(circle, rgba(201, 168, 120, 0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(201, 128, 131, 0.22) 0%, transparent 70%);
 }
 
 /* ==========================================================================
@@ -116,7 +116,7 @@
   margin: 0;
   font-family: var(--display);
   font-weight: 500;
-  /* Sized so "Chennai's Trusted" holds one line in this column. Poppins is
+  /* Sized so "Kovilpatti's Trusted" holds one line in this column. Poppins is
      considerably wider per character than the serif this was first cut for,
      so the ceiling drops accordingly — at the old 4.5rem the longest line
      overran the column and the reveal mask clipped it. */
@@ -162,9 +162,9 @@
   color: transparent;
 }
 
-/* Concerns — four self-contained pills rather than one bullet-separated run.
-   Each carries its own outline, so the group reflows to two lines at narrow
-   widths without any dangling separator or ragged break. */
+/* Credentials — three self-contained pills rather than one pipe-separated
+   run. Each carries its own outline, so the group reflows to two lines at
+   narrow widths without any dangling separator or ragged break. */
 .hero__sub {
   display: flex;
   flex-wrap: wrap;
@@ -183,7 +183,7 @@
   border-radius: var(--r-full);
   /* A lift off the ground rather than a tint over it — glass that brightens
      is what reads as raised on a dark surface. */
-  background: rgba(253, 248, 238, 0.05);
+  background: rgba(255, 248, 248, 0.05);
   backdrop-filter: blur(10px) saturate(150%);
   -webkit-backdrop-filter: blur(10px) saturate(150%);
   box-shadow: inset 0 0 0 1px var(--hero-line);
@@ -205,7 +205,7 @@
 
 .hero__sub-item:hover {
   transform: translateY(-2px);
-  box-shadow: inset 0 0 0 1px rgba(229, 197, 88, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(242, 87, 92, 0.7);
 }
 
 .hero__lede {
@@ -217,70 +217,6 @@
   font-size: clamp(0.92rem, 0.95vw, 1rem);
   line-height: 1.7;
   color: var(--hero-soft);
-}
-
-/* ---------- Trust badges ---------- */
-
-/* Deliberately a different object to the concern pills above. Those are
-   outlined chips carrying one word each; these are a rule-separated row of
-   figure-plus-meaning, so the two rows never read as one repeated pattern the
-   eye skips over. The hairlines are drawn between items rather than around
-   them — an outline on each would put a third pill shape in the hero. */
-.hero__trust {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: clamp(14px, 1.8vw, 26px);
-  margin-top: clamp(22px, 2.6vw, 30px);
-  padding: 0;
-  list-style: none;
-}
-
-.hero__trust-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-/* Between items only, so a row that wraps never begins with a stray rule. */
-.hero__trust-item + .hero__trust-item {
-  padding-left: clamp(14px, 1.8vw, 26px);
-  border-left: 1px solid var(--hero-line);
-}
-
-.hero__trust-ic {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  color: var(--gold-400);
-  background: rgba(229, 197, 88, 0.1);
-  box-shadow: inset 0 0 0 1px var(--hero-line);
-}
-
-.hero__trust-copy {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  line-height: 1.15;
-}
-
-.hero__trust-copy strong {
-  font-family: var(--display);
-  font-size: clamp(0.98rem, 1.15vw, 1.18rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--hero-ink);
-}
-
-.hero__trust-copy small {
-  font-size: clamp(0.66rem, 0.72vw, 0.73rem);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--hero-muted);
 }
 
 /* ---------- Magnetic CTAs ---------- */
@@ -344,7 +280,7 @@
   color: var(--cta-ink);
   background: var(--grad-cta);
   background-size: 200% 100%;
-  box-shadow: 0 16px 38px -16px rgba(139, 101, 20, 0.6);
+  box-shadow: 0 16px 38px -16px rgba(143, 20, 27, 0.6);
   transition:
     background-position 0.8s var(--ease),
     box-shadow 0.5s var(--ease);
@@ -352,7 +288,7 @@
 
 .mbtn--solid:hover {
   background-position: 100% 50%;
-  box-shadow: 0 22px 48px -16px rgba(139, 101, 20, 0.76);
+  box-shadow: 0 22px 48px -16px rgba(143, 20, 27, 0.76);
 }
 
 .mbtn--solid .mbtn__icon {
@@ -389,10 +325,10 @@
    here the secondary action is a gold rule around the dark surface itself. */
 .mbtn--glass {
   color: var(--gold-300);
-  background: rgba(253, 248, 238, 0.04);
+  background: rgba(255, 248, 248, 0.04);
   backdrop-filter: blur(14px) saturate(170%);
   -webkit-backdrop-filter: blur(14px) saturate(170%);
-  box-shadow: inset 0 0 0 1.5px rgba(229, 197, 88, 0.42);
+  box-shadow: inset 0 0 0 1.5px rgba(242, 87, 92, 0.42);
   transition:
     color 0.35s var(--ease-soft),
     background 0.4s var(--ease-soft),
@@ -401,8 +337,8 @@
 
 .mbtn--glass:hover {
   color: var(--gold-200);
-  background: rgba(253, 248, 238, 0.09);
-  box-shadow: inset 0 0 0 1.5px rgba(229, 197, 88, 0.85);
+  background: rgba(255, 248, 248, 0.09);
+  box-shadow: inset 0 0 0 1.5px rgba(242, 87, 92, 0.85);
 }
 
 /* ==========================================================================
@@ -433,7 +369,7 @@
   position: absolute;
   inset: 6% -12% -8%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(216, 174, 54, 0.4), transparent 72%);
+  background: radial-gradient(closest-side, rgba(237, 34, 41, 0.4), transparent 72%);
   filter: blur(38px);
   z-index: 0;
   pointer-events: none;
@@ -446,8 +382,8 @@
 .ba__ghost {
   position: absolute;
   border-radius: 22px;
-  background: rgba(253, 248, 238, 0.05);
-  box-shadow: inset 0 0 0 1px rgba(229, 197, 88, 0.2);
+  background: rgba(255, 248, 248, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(242, 87, 92, 0.2);
   pointer-events: none;
 }
 
@@ -466,18 +402,16 @@
 .ba__frame {
   position: relative;
   z-index: 2;
-  /* Square, matching the sources — the clinic's before/after files are square
-     composites, and a 4:5 frame letterboxed every one of them. */
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   /* Explicit, so the ratio always has a definite width to resolve against —
      the frame carries no intrinsic size of its own. */
   width: 100%;
   border-radius: 20px;
   overflow: hidden;
   isolation: isolate;
-  background: linear-gradient(170deg, var(--paper), #f7f1e6);
+  background: linear-gradient(170deg, var(--paper), #fbefef);
   box-shadow:
-    inset 0 0 0 1.5px rgba(229, 197, 88, 0.5),
+    inset 0 0 0 1.5px rgba(242, 87, 92, 0.5),
     0 2px 4px rgba(0, 0, 0, 0.3),
     0 40px 90px -34px rgba(0, 0, 0, 0.7);
 }
@@ -512,7 +446,7 @@
   background: rgba(255, 255, 255, 0.76);
   backdrop-filter: blur(10px) saturate(160%);
   -webkit-backdrop-filter: blur(10px) saturate(160%);
-  box-shadow: inset 0 0 0 1px rgba(201, 168, 120, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(201, 128, 131, 0.45);
   font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -534,7 +468,7 @@
   right: 0;
   height: 2px;
   z-index: 4;
-  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.85), transparent);
+  background: linear-gradient(90deg, transparent, rgba(215, 25, 32, 0.85), transparent);
   animation: ba-scan 1.5s var(--ease-soft) 1;
   pointer-events: none;
 }
@@ -562,7 +496,7 @@
   inset: auto 0 0;
   height: 34%;
   z-index: 3;
-  background: linear-gradient(to top, rgba(23, 18, 8, 0.5), transparent);
+  background: linear-gradient(to top, rgba(28, 17, 18, 0.5), transparent);
   pointer-events: none;
 }
 
@@ -579,7 +513,7 @@
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #fffaf0;
-  text-shadow: 0 1px 10px rgba(23, 18, 8, 0.5);
+  text-shadow: 0 1px 10px rgba(28, 17, 18, 0.5);
 }
 
 .ba__dot {
@@ -687,28 +621,6 @@
 
   .hero__title {
     font-size: clamp(1.72rem, 7.6vw, 2.3rem);
-  }
-
-  /* Three credentials cannot hold one line at this width, and a wrapped row
-     with a divider hanging off the front of line two is worse than no divider
-     at all. They become a stacked list, and the rules go with them. */
-  .hero__trust {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .hero__trust-item + .hero__trust-item {
-    padding-left: 0;
-    border-left: 0;
-  }
-
-  /* Figure and label side by side once stacked — a two-line entry three times
-     over is a lot of vertical travel above the fold. */
-  .hero__trust-copy {
-    flex-direction: row;
-    align-items: baseline;
-    gap: 7px;
   }
 
   /* Below this the pair genuinely cannot share a line. */

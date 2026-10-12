@@ -5,50 +5,45 @@ import result4 from './assets/result-4-pitted-scars-smoothed.jpg'
 import result5 from './assets/result-5-texture-refined.jpg'
 
 export const CLINIC = {
-  /* The registered business name, which is what the Google listing, the maps
-     embeds and the MedicalClinic schema in index.html all carry. The client's
-     content brief spells the brand "Bonittaa" in places; that spelling is not
-     used here, because a name on the page that does not match the name on the
-     listing splits the local-SEO entity. */
-  name: 'Bonitaa Skin and Hair Care',
-  shortName: 'Bonitaa',
-  phoneDisplay: '+91 93637 00199',
-  phoneHref: 'tel:+919363700199',
-  /* ⚠ This is the inbox the lead form delivers to (see submitLead.js), now
-     also shown publicly in the footer. If the clinic has a patient-facing
-     address, put that here instead — enquiries sent from the footer land
-     wherever this points, which may not be the same team. */
-  email: 'grow.10.x.org@gmail.com',
+  /* The name on the clinic's own Facebook page, which is also how the logo
+     reads: Advanced GroHair + GloSkin, Kovilpatti. */
+  name: 'AdGro Hair and GloSkin Kovilpatti',
+  shortName: 'AdGro GloSkin',
+  city: 'Kovilpatti',
+  phoneDisplay: '080980 56789',
+  phoneHref: 'tel:+918098056789',
+  email: 'adgrokovilpatti@gmail.com',
+  facebook: 'https://www.facebook.com/people/AdGro-Hair-and-GloSkin-Kovilpatti/61590591973757/',
+  instagram: 'https://www.instagram.com/adgrogloclinic.kovilpatti/',
 }
 
-/* Addresses are stored as lines so each renders as its own block — no manual
-   pre-line breaks fighting the column width. */
+/* One clinic. Still an array so the footer and the form keep a single shape to
+   render, and a second branch would be one more entry. The map embed is a
+   query embed on the street address — it needs no API key. */
+const ADDRESS_QUERY =
+  '16, First Floor, No. 464, Nellai Bypass Road, Near Fire Station, V.O.C. Nagar, Kadershan Koil, Kovilpatti, Tamil Nadu 628502'
+
 export const BRANCHES = [
   {
-    id: 'mylapore',
-    name: 'Mylapore',
-    lines: ['First Floor, Door No: 200/1', 'Royapettah High Road', 'Chennai - 600004'],
-    maps: 'https://share.google/oYqVRzkKhSDivvPR1',
-    embed:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.351566109934!2d80.26182997985208!3d13.044365354474216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52674e6b7792f7%3A0xadf16dbc82f16cd0!2sBonitaa%20Skin%20and%20Hair%20Care!5e1!3m2!1sen!2sin!4v1785471746913!5m2!1sen!2sin',
-  },
-  {
-    id: 'velachery',
-    name: 'Velachery',
-    lines: ['No. 16, Bharathi Nagar Bus Stop', 'Tharamani', 'Chennai - 600113'],
-    maps: 'https://share.google/zlr3Tn6Ttaz4KIgbQ',
-    embed:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.353715672163!2d80.22940837984476!3d12.981110254679605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525d322d5c006f%3A0xde5c097bc87e2ce9!2sBonitaa%20Skin%20and%20Hair%20Care!5e1!3m2!1sen!2sin!4v1785471781803!5m2!1sen!2sin',
+    id: 'kovilpatti',
+    name: 'Kovilpatti',
+    lines: [
+      '16, First Floor, No. 464, Nellai Bypass Road',
+      'Near Fire Station, V.O.C. Nagar, Kadershan Koil',
+      'Kovilpatti, Tamil Nadu – 628502',
+    ],
+    maps: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS_QUERY)}`,
+    embed: `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS_QUERY)}&output=embed`,
   },
 ]
 
 /* Trust metrics — the only place branch count is stated as a number */
 export const TRUST_STATS = [
-  { icon: 'CalendarCheck', value: '15+', label: 'Years of Experience' },
-  { icon: 'ShieldCheck', value: '18+', label: 'FDA-Approved Technologies' },
-  { icon: 'Users', value: '10,000+', label: 'Happy Patients' },
+  { icon: 'CalendarCheck', value: '15+', label: 'Years of Excellence' },
+  { icon: 'ShieldCheck', value: '18+', label: 'FDA-Cleared Treatments' },
+  { icon: 'Users', value: '10,000+', label: 'Patients Treated' },
   { icon: 'Star', value: '4.8', label: 'Google Rating' },
-  { icon: 'MapPin', value: '35+', label: 'Branches Across Tamil Nadu' },
+  { icon: 'MapPin', value: 'Kovilpatti', label: 'Nellai Bypass Road' },
 ]
 
 /**
@@ -69,11 +64,11 @@ export const TRUST_STATS = [
 export const URGENCY = {
   slotsLeft: 6,
   wasPrice: '₹699',
-  nowPrice: '₹99',
-  priceNote: 'Skin consultation today only',
+  nowPrice: 'Free',
+  priceNote: 'Consultation today only',
   windowMinutes: 15,
   /* Restated compactly here — the popup has room for three, not five. */
-  proof: ['35+ Branches', '15+ Years', '10,000+ Patients'],
+  proof: ['Kovilpatti', '15+ Years', '10,000+ Patients'],
 }
 
 /* The six treatments from the client's content brief, in the brief's own
@@ -111,19 +106,27 @@ export const SERVICES = [
   },
 ]
 
-/* Five now, not four — the brief lists five reasons, and the grid lays them out
-   3 + 2 rather than dropping one.
-
-   Titles only. The brief gives no supporting line under these, so the cards
-   carry none: an invented sentence under each would be five claims about the
-   clinic that nobody at the clinic wrote. The cards are sized for a title
-   alone — see `.why__item` in App.css. */
 export const WHY_US = [
-  { icon: 'BadgeCheck', title: 'Experienced Skin Specialists' },
-  { icon: 'Microscope', title: 'Advanced Skin Analysis' },
-  { icon: 'ClipboardList', title: 'Personalized Treatment Plans' },
-  { icon: 'ShieldCheck', title: 'FDA-Approved Technologies' },
-  { icon: 'MapPin', title: 'Trusted Across Tamil Nadu' },
+  {
+    icon: 'BadgeCheck',
+    title: 'Experienced Skin Specialists',
+    copy: 'Every treatment plan is designed and reviewed by qualified specialists.',
+  },
+  {
+    icon: 'ShieldCheck',
+    title: 'FDA-Approved Technologies',
+    copy: '18+ modern skin treatment options backed by research.',
+  },
+  {
+    icon: 'ClipboardList',
+    title: 'Personalised Plans',
+    copy: 'No generic packages — every plan is built around your skin type and concern.',
+  },
+  {
+    icon: 'Star',
+    title: '4.8★ Rated Clinic',
+    copy: 'Trusted by patients across Kovilpatti and nearby towns.',
+  },
 ]
 
 /**
@@ -157,23 +160,18 @@ export const RESULTS = [
   { src: result5, caption: 'Skin texture refined', treatment: 'Acne Scar Treatment' },
 ]
 
-/* Google reviews supplied by the clinic, quoted as written. Nothing here is
-   paraphrased or tidied — an edited review is no longer the patient's. */
+/* Google reviews of the Kovilpatti clinic, quoted as written — the same
+   reviews the hair page carries, the two that are about skin treatments. */
 export const REVIEWS = [
   {
-    name: 'Murali',
-    treatment: 'PRP Treatment',
-    text: "My PRP treatment journey is ongoing, and I'm already highly impressed with the early results, particularly the reduced hair fall and initial improvements in thickness.",
+    name: 'Seerin',
+    treatment: 'Q-Switch & Facial',
+    text: 'I visited the clinic for a Q-switch treatment and a facial, and the experience was amazing! The ambience is super clean, calm and very welcoming. The staff are really polite, friendly and professional — they explain every step clearly and make you feel very comfortable throughout the process.',
   },
   {
-    name: 'Dharsini',
+    name: 'Rajan Gomes',
     treatment: 'Hydra Facial',
-    text: "I had an good HydraFacial experience with visible glow and hydration after the session. Overall, it's a reliable choice for skin rejuvenation with noticeable results.",
-  },
-  {
-    name: 'Sharmila',
-    treatment: 'Laser Treatment',
-    text: "I'm genuinely impressed with the quality of service and would highly recommend Bonitaa for laser treatments.",
+    text: 'I had a Hydra Facial at the clinic and the experience was excellent. My skin felt deeply cleansed, hydrated, and instantly brighter after the session. The procedure was gentle and relaxing, and everything was explained clearly. The clinic maintains good hygiene and professionalism.',
   },
 ]
 
@@ -192,6 +190,10 @@ export const FAQS = [
   },
   {
     q: 'How do I book an appointment?',
-    a: 'Simply call us or fill out the consultation form, and our Chennai team will contact you.',
+    a: 'Simply call us or fill out the consultation form, and our Kovilpatti team will contact you.',
+  },
+  {
+    q: 'Where is the clinic located?',
+    a: 'We are at 16, First Floor, No. 464, Nellai Bypass Road, near the Fire Station, V.O.C. Nagar, Kadershan Koil, Kovilpatti. Call 080980 56789 and we will guide you.',
   },
 ]

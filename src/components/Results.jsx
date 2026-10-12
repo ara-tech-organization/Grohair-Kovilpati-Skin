@@ -21,21 +21,20 @@ const pad = (n) => String(n + 1).padStart(2, '0')
 /**
  * Two genuinely different compositions rather than one squeezed to fit.
  *
- * Desktop is a curated case viewer: one print held large on the left, and on the
- * right the open case set out as a sheet — its treatment, its outcome, and a
- * contact strip of all six prints to choose from.
+ * Desktop is a curated case viewer: one print held large beside an index of the
+ * six, the open row running a timing bar that hands over to the next case.
  *
  * Below 1080px that becomes a swipeable slider — one case per screen, driven by
- * the thumb. A picker plus a photograph is a lot of vertical travel on a phone,
- * and a swipe is the natural gesture for browsing pictures. The slider is a real
- * scroll container with scroll-snap, so swiping, momentum and keyboard scrolling
- * are the browser's own.
+ * the thumb. An index of six rows plus a photograph is a lot of vertical travel
+ * on a phone, and a list is a poor way to browse pictures when a swipe is the
+ * natural gesture. The slider is a real scroll container with scroll-snap, so
+ * swiping, momentum and keyboard scrolling are the browser's own.
  */
 export default function Results() {
   const ref = useReveal()
   const reduced = usePrefersReducedMotion()
   const stageRef = useRef(null)
-  const thumbsRef = useRef([])
+  const rowsRef = useRef([])
   const trackRef = useRef(null)
   const frame = useRef(0)
   /* A timestamp rather than a boolean: a swipe has no reliable "finished"
@@ -82,21 +81,13 @@ export default function Results() {
     pausedUntil.current = Date.now() + HOLD_AFTER_TOUCH
   }
 
-  /**
-   * One slide's worth of travel, measured off the DOM rather than assumed.
-   *
-   * `offsetWidth`, not `getBoundingClientRect().width`: off-centre slides are
-   * scaled down, and the rect reports the *transformed* box. Measuring slide 0
-   * while it sat off-centre therefore returned a width a tenth short, and every
-   * `i * width` offset compounded that error until the wrong case was scrolled
-   * to. `offsetWidth` is the layout box and ignores the transform.
-   */
+  /** One slide's worth of travel, measured off the DOM rather than assumed. */
   const slideWidth = () => {
     const track = trackRef.current
     const card = track?.firstElementChild
     if (!card) return 0
     const gap = parseFloat(getComputedStyle(track).columnGap) || 0
-    return card.offsetWidth + gap
+    return card.getBoundingClientRect().width + gap
   }
 
   /** Moves the slider; `active` follows from the scroll handler, not from here. */
@@ -150,12 +141,12 @@ export default function Results() {
     })
   }
 
-  /** The user path on desktop: change case, and move focus to its thumbnail. */
+  /** The user path on desktop: change case, and move focus to its row. */
   const go = useCallback(
     (next, focus) => {
       const i = (next + TOTAL) % TOTAL
       step(i)
-      if (focus) thumbsRef.current[i]?.focus()
+      if (focus) rowsRef.current[i]?.focus()
     },
     [step],
   )
@@ -207,20 +198,26 @@ export default function Results() {
   return (
     <section className="section section--cream rr" id="results" ref={ref}>
       <div className="shell">
-        {/* The brief gives this section a heading and one line. The case-count
-            seal that used to sit opposite is gone — "6 documented cases,
-            photographed in-clinic" is a claim about the clinic's records, and
-            the photographs it counted are still placeholders. */}
         <div className="results__head rr__head reveal">
           <div>
             <span className="eyebrow">
               <Icon name="Sparkles" size={13} />
-              Before &amp; After Results
+              Real Results
             </span>
             <h2>
-              Real Patient <span className="gold-text">Transformations</span>
+              Real Skin Transformations, <span className="gold-text">Real Kovilpatti Patients</span>
             </h2>
-            <p>See real results achieved through personalized skin treatments.</p>
+            <p>Verified results from our Kovilpatti clinic — not stock photos.</p>
+          </div>
+
+          <div className="rr__seal">
+            <span className="rr__seal-mark" aria-hidden="true">
+              <Icon name="BadgeCheck" size={19} />
+            </span>
+            <span className="rr__seal-copy">
+              <strong>{TOTAL} documented cases</strong>
+              <small>Photographed in-clinic · shared with consent</small>
+            </span>
           </div>
         </div>
 
@@ -261,7 +258,7 @@ export default function Results() {
                       <img
                         className="rr__slide-img"
                         src={item.src}
-                        alt={`${item.caption} — ${item.treatment} result at our Chennai skin clinic`}
+                        alt={`${item.caption} — ${item.treatment} result at our Kovilpatti clinic`}
                         /* Only the first slide is on screen at rest; the others
                            arrive as the track is swiped. */
                         loading={i === 0 ? 'eager' : 'lazy'}
@@ -305,7 +302,7 @@ export default function Results() {
                       key={item.src}
                       className={`rr__shot${i === active ? ' is-on' : ''}`}
                       src={item.src}
-                      alt={`${item.caption} — ${item.treatment} result at our Chennai skin clinic`}
+                      alt={`${item.caption} — ${item.treatment} result at our Kovilpatti clinic`}
                       aria-hidden={i === active ? undefined : true}
                       loading="lazy"
                       decoding="async"
@@ -321,18 +318,6 @@ export default function Results() {
                 <span className="rr__edge rr__edge--br" aria-hidden="true" />
               </div>
 
-              {/* An index on a spine. It was six lines of text, only one of
-                  which said anything at a time — the other five were a
-                  treatment name and nothing else, and the outcome unfolded out
-                  of whichever row was open. Every row now states its own
-                  outcome, so all six read at once and the open one is simply
-                  the one that is lit.
-
-                  No thumbnails in it, deliberately: each source is a four-up
-                  before/after collage, and at the ~50px a row can spare none of
-                  the four is legible — an index that shows a picture you cannot
-                  read promises something it does not deliver. The print beside
-                  it is where the looking happens. */}
               <div className="rr__index">
                 {counter}
 
@@ -350,32 +335,40 @@ export default function Results() {
                           aria-expanded={on}
                           aria-controls={PANEL_ID}
                           ref={(node) => {
-                            thumbsRef.current[i] = node
+                            rowsRef.current[i] = node
                           }}
                           onClick={() => step(i)}
                         >
-                          <span className="rr__node" aria-hidden="true" />
+                          <span className="rr__row-no" aria-hidden="true">
+                            {pad(i)}
+                          </span>
 
                           <span className="rr__row-body">
                             <span className="rr__row-treat">{item.treatment}</span>
-                            <span className="rr__row-cap">{item.caption}</span>
 
-                            {/* The track is on every row so the height never
-                                changes as cases hand over — an empty one paints
-                                nothing. The fill is mounted on the open row
-                                only, which is what restarts it from zero on
-                                every change; with motion off there is no fill
-                                at all and nothing hands over. */}
-                            {!reduced && (
-                              <span className="rr__meter" aria-hidden="true">
-                                {on && (
-                                  <i
-                                    data-run={onScreen && !held ? 'true' : 'false'}
-                                    onAnimationEnd={() => step(active + 1)}
-                                  />
+                            {/* 0fr → 1fr, so the outcome unfolds instead of
+                                popping. */}
+                            <span className="rr__row-open">
+                              <span className="rr__row-inner">
+                                <span className="rr__row-cap">{item.caption}</span>
+
+                                {/* Mounted on the open row only, so it restarts
+                                    from zero on every change of case. With
+                                    motion off it is never mounted at all. */}
+                                {on && !reduced && (
+                                  <span className="rr__meter" aria-hidden="true">
+                                    <i
+                                      data-run={onScreen && !held ? 'true' : 'false'}
+                                      onAnimationEnd={() => step(active + 1)}
+                                    />
+                                  </span>
                                 )}
                               </span>
-                            )}
+                            </span>
+                          </span>
+
+                          <span className="rr__row-go" aria-hidden="true">
+                            <Icon name="ArrowUpRight" size={15} />
                           </span>
                         </button>
                       </li>
@@ -391,11 +384,11 @@ export default function Results() {
           <p className="rr__note">
             <Icon name="ShieldCheck" size={15} />
             Photographs of consenting patients. Results differ from person to person depending on
-            skin type, the concern being treated, and treatment stage.
+            skin type, concern, and treatment stage.
           </p>
 
           <button type="button" className="btn btn--gold btn--lg" onClick={scrollToBooking}>
-            Book Consultation
+            Book a Consultation
             <Icon name="ArrowRight" size={18} className="arrow" />
           </button>
         </div>

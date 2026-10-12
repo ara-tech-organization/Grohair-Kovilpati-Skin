@@ -14,7 +14,7 @@ export default defineConfig({
    * So the live URL is /skin/, `npm run dev` serves http://localhost:5173/skin/,
    * and public/.htaccess rewrites the app's clean paths inside that folder.
    *
-   *   ⚠ If this is ever moved to a subdomain root (skin.bonitaa.co.in) or to
+   *   ⚠ If this is ever moved to a subdomain root (skin.example.com) or to
    *   public_html itself, build with BASE_PATH=/ and change RewriteBase in
    *   public/.htaccess to match. The two have to agree.
    *

@@ -4,25 +4,26 @@ import { normalizePhone, submitLead, validatePhone } from '../submitLead'
 import DatePicker from './DatePicker'
 import Icon from './Icon'
 
-/**
- * Name, mobile number, Chennai branch, preferred appointment date.
- *
- * `date` is a YYYY-MM-DD string chosen from the calendar — a day the clinic
- * can actually schedule against. It replaces the Morning/Afternoon/Evening
- * callback band the form briefly asked for instead: a band said when to ring,
- * a date says when to be seen, and the exact time is confirmed on the call.
- */
-const EMPTY = { name: '', phone: '', city: '', branch: '', date: '' }
+/* `date` is a YYYY-MM-DD string. It replaced a Morning/Afternoon/Evening
+   choice — a date is a commitment the clinic can actually schedule against,
+   where a time-of-day band still needed a call to pin down.
+
+   `city` is free text and sits alongside `branch`, which they are not a
+   substitute for: branch is which of the two clinics the patient will attend,
+   city is where they are travelling from. Both variants collect it. */
+const SINGLE_BRANCH = BRANCHES.length === 1
+const EMPTY = { name: '', phone: '', city: '', branch: SINGLE_BRANCH ? BRANCHES[0].name : '', date: '' }
+
 
 /**
- * The one enquiry form on the page. Both variants ask the same four questions;
+ * The one enquiry form on the page. Both variants ask the same five questions;
  * `variant="compact"` only tightens the popup's spacing and labels.
  * `idPrefix` keeps input ids unique between the two instances.
  */
 export default function LeadForm({
   variant = 'full',
   idPrefix = 'lead',
-  submitLabel = 'Book Appointment',
+  submitLabel = 'Book Your Slot',
   /* Lets a host know the enquiry landed — the exit popup uses it to decide
      whether a follow-up is appropriate. */
   onSuccess,
@@ -38,18 +39,18 @@ export default function LeadForm({
   }
 
   const field = (key) => (e) => set(key, e.target.value)
-  /* The calendar hands back a value, not an event. */
+  /* The custom dropdown hands back a value, not an event. */
   const pick = (key) => (next) => set(key, next)
 
-  /* Every field is required, in both variants. The popup used to skip one of
-     them and posted it empty, which the handler rejected — so every popup lead
-     failed while the booking form went through. */
   const validate = () => {
     const next = {}
     if (values.name.trim().length < 2) next.name = 'Please enter your name'
     if (!validatePhone(values.phone)) next.phone = 'Enter a valid 10-digit mobile number'
-    if (values.city.trim().length < 2) next.city = 'Please enter your area'
+    if (values.city.trim().length < 2) next.city = 'Please enter your city or area'
     if (!values.branch) next.branch = 'Please choose a branch'
+    /* Both variants now. The popup used to skip it, which meant it posted an
+       empty date — and the handler requires one, so every popup lead was
+       rejected while the booking form went through. */
     if (!values.date) next.date = 'Pick a date that suits you'
     return next
   }
@@ -116,7 +117,7 @@ export default function LeadForm({
         </label>
 
         <label className="field" htmlFor={`${idPrefix}-phone`}>
-          <span className="field__label">Mobile Number</span>
+          <span className="field__label">Phone Number</span>
           <span className="field__wrap">
             <Icon name="Phone" size={17} />
             <span className="field__prefix" aria-hidden="true">
@@ -141,11 +142,6 @@ export default function LeadForm({
         </label>
       </div>
 
-      {/* Where the visitor actually is, which the branch cannot answer: the two
-          clinics are fixed points, and knowing someone is in Tambaram is what
-          tells the desk which of them to offer. It is also the `city` the mail
-          handler requires — that was being sent as the constant "Chennai",
-          which satisfied the handler and told the clinic nothing. */}
       <label className="field" htmlFor={`${idPrefix}-city`}>
         <span className="field__label">City / Area</span>
         <span className="field__wrap">
@@ -154,8 +150,10 @@ export default function LeadForm({
             id={`${idPrefix}-city`}
             name="city"
             type="text"
+            /* Shorter prompt in the popup — three example areas overflow the
+               narrower field and truncate mid-word. */
+            placeholder={compact ? 'e.g. Kovilpatti' : 'e.g. Kovilpatti, Kadambur, Sattur'}
             autoComplete="address-level2"
-            placeholder="e.g. Velachery, Adyar, Tambaram"
             value={values.city}
             onChange={field('city')}
             aria-invalid={Boolean(errors.city)}
@@ -166,10 +164,11 @@ export default function LeadForm({
 
       {/* Two clinics — a dropdown would hide both behind a click to save no
           space at all. As badges they are visible, comparable and one tap. */}
+      {!SINGLE_BRANCH && (
       <fieldset className="field field--choice">
         <legend className="field__label">
           <Icon name="MapPin" size={15} />
-          Select Chennai Branch
+          Select Branch
         </legend>
 
         <div className="badges">
@@ -188,7 +187,7 @@ export default function LeadForm({
               </span>
               <span className="badge__text">
                 <strong>{b.name}</strong>
-                <small>Chennai</small>
+                <small>Tamil Nadu</small>
               </span>
             </label>
           ))}
@@ -196,6 +195,7 @@ export default function LeadForm({
 
         {errors.branch && <span className="field__error">{errors.branch}</span>}
       </fieldset>
+      )}
 
       {/* In both variants. It is a field that opens a calendar, not an inline
           grid, so it costs the popup one row rather than a whole month. */}

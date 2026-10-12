@@ -24,7 +24,7 @@ export default function ActionBar() {
         className="action-bar__btn action-bar__btn--book"
         onClick={scrollToBooking}
       >
-        Book Consultation
+        Book an Appointment
       </button>
     </div>
   )
