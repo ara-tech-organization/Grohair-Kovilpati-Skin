@@ -18,14 +18,10 @@
       })(window, document, 'script', 'dataLayer', 'GTM-N72LR9BD')
     </script>
     <!-- End Google Tag Manager -->
-    <!--
-      One icon for every surface — tab, bookmark, Android and iOS home screens.
-      It is the red "g" of the gloskin wordmark, cropped out of the logo
-      artwork by scripts/make-favicon.js, which only ever reads
-      src/assets/Logo.png. The full lockup is unreadable at 32px.
-    -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <!-- The same icon the hair page uses. %BASE_URL% is Vite's `base`, so the
+         path stays inside the app's folder. -->
+    <link rel="icon" type="image/png" href="%BASE_URL%favicon.png" />
+    <link rel="apple-touch-icon" href="%BASE_URL%favicon.png" />
 
     <title>Skin Clinic in Kovilpatti | Acne, Pigmentation &amp; Laser Skin Treatments | AdGro GloSkin</title>
     <meta
@@ -37,6 +33,7 @@
     <!-- Mirrors the two tags above, so a shared link reads the same as a
          search result rather than carrying a second version of the copy. -->
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://ara-tech-organization.github.io/Grohair-Kovilpati-Skin/favicon.png" />
     <meta
       property="og:title"
       content="Skin Clinic in Kovilpatti | Acne, Pigmentation &amp; Laser Skin Treatments | AdGro GloSkin"
