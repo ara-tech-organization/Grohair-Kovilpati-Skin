@@ -12,7 +12,6 @@
      · Trust bar   — a solid red band
      · Treatments  — numbered cards with solid icons
      · Why Us      — blush tiles, left-aligned
-     · Footer      — light blush ground, red rule on top
    ========================================================================== */
 
 :root {
@@ -485,62 +484,6 @@ html .ba__vignette {
 .field input,
 .field select {
   border-radius: 14px;
-}
-
-/* ==========================================================================
-   FOOTER — light
-   ========================================================================== */
-
-.ftr {
-  --f-ink: var(--rose-ink);
-  --f-body: rgba(58, 20, 24, 0.78);
-  --f-muted: rgba(58, 20, 24, 0.58);
-  --f-line: rgba(184, 22, 30, 0.2);
-  --f-accent: var(--red-700);
-
-  background: linear-gradient(180deg, #fff1ee 0%, #ffe6e2 100%);
-  border-top: 5px solid var(--red-600);
-}
-
-.ftr__brand img {
-  background: #ffffff;
-  box-shadow: 0 14px 28px -18px rgba(122, 11, 16, 0.5);
-}
-
-.ftr__social a {
-  border-color: var(--red-300);
-  background: #ffffff;
-  color: var(--red-700);
-}
-
-.ftr__social a:hover {
-  background: var(--red-700);
-  color: #ffffff;
-}
-
-.ftr__mail,
-.ftr__phone {
-  border-color: var(--red-300);
-  background: #ffffff;
-  border-radius: 14px;
-}
-
-.ftr__mail:hover,
-.ftr__phone:hover {
-  background: var(--red-050);
-  border-color: var(--red-600);
-  color: var(--red-900);
-}
-
-.ftr__links a:hover,
-.ftr__legal a:hover {
-  color: var(--red-700);
-}
-
-.ftr__branch-map {
-  border-color: var(--red-200);
-  background: #ffffff;
-  border-radius: 20px;
 }
 
 @media (max-width: 1080px) {
