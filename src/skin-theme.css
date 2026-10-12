@@ -10,7 +10,7 @@
      · Type        — Playfair Display headlines over DM Sans body copy
      · Hero        — light and luminous, with an arched frame, not a dark slab
      · Trust bar   — a solid red band
-     · Treatments  — numbered cards with solid icons
+     · Treatments  — soft cards with solid icons
      · Why Us      — blush tiles, left-aligned
    ========================================================================== */
 
@@ -384,33 +384,14 @@ html .ba__vignette {
   text-align: center;
 }
 
-/* ----- Treatments: numbered cards ----- */
-
-.services__grid {
-  counter-reset: svc;
-}
+/* ----- Treatments ----- */
 
 .svc {
-  counter-increment: svc;
   padding: clamp(28px, 3vw, 38px) clamp(24px, 2.6vw, 32px);
   border: 0;
   border-radius: var(--r-lg);
   background: linear-gradient(170deg, #ffffff, var(--red-050));
   box-shadow: 0 22px 44px -32px rgba(122, 11, 16, 0.42);
-}
-
-.svc::before {
-  content: counter(svc, decimal-leading-zero);
-  position: absolute;
-  top: 12px;
-  right: 22px;
-  font-family: var(--font-display);
-  font-size: 3.6rem;
-  font-weight: 600;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.2px var(--red-200);
-  pointer-events: none;
 }
 
 .svc__ic {
