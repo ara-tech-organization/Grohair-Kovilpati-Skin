@@ -1,0 +1,569 @@
+/* ==========================================================================
+   GloSkin edition — the look that makes this page its own rather than a
+   recolour of the hair page.
+
+   Loaded after every other stylesheet, so everything here overrides by source
+   order (and by a leading `html` where the original is more specific). It
+   changes presentation only: no markup, copy or behaviour lives here, and
+   deleting this file returns the page to the shared template.
+
+     · Type        — Playfair Display headlines over DM Sans body copy
+     · Hero        — light and luminous, with an arched frame, not a dark slab
+     · Trust bar   — a solid red band
+     · Treatments  — numbered cards with solid icons
+     · Why Us      — blush tiles, left-aligned
+     · Footer      — light blush ground, red rule on top
+   ========================================================================== */
+
+:root {
+  --font: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+  /* Softer, rounder corners everywhere cards are drawn. */
+  --r-md: 18px;
+  --r-lg: 30px;
+  --r-xl: 42px;
+
+  /* The shared template still names its red scale --gold-*; these aliases let
+     this file say what it means. */
+  --red-900: var(--gold-900);
+  --red-800: var(--gold-800);
+  --red-700: var(--gold-700);
+  --red-600: var(--gold-600);
+  --red-500: var(--gold-500);
+  --red-400: var(--gold-400);
+  --red-300: var(--gold-300);
+  --red-200: var(--gold-200);
+  --red-100: var(--gold-100);
+  --red-050: var(--gold-050);
+
+  --cream: #fff5f3;
+  --blush: #ffe9e6;
+  --rose-ink: #3a1418;
+}
+
+body {
+  font-size: 16.5px;
+  line-height: 1.72;
+}
+
+/* ---------- Type ---------- */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  line-height: 1.18;
+}
+
+h1 {
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.15rem, 1.7vw, 1.34rem);
+  letter-spacing: -0.005em;
+}
+
+html .hero__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.12;
+  font-size: clamp(2.1rem, 3.6vw, 3.9rem);
+}
+
+html .hero__word.is-accent {
+  font-style: italic;
+  font-weight: 600;
+  padding-right: 0.08em;
+}
+
+.trust__value,
+.about__stat strong,
+.rr__count,
+.score__num {
+  font-family: var(--font-display);
+}
+
+/* ---------- Section headings: a quiet kicker instead of a pill ---------- */
+
+.eyebrow {
+  padding: 0;
+  margin-bottom: 18px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  gap: 12px;
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  color: var(--red-700);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  background: var(--red-500);
+}
+
+.eyebrow svg {
+  display: none;
+}
+
+/* Centred headings get the line on both sides. */
+.section-head .eyebrow::after {
+  content: '';
+  width: 28px;
+  height: 1.5px;
+  background: var(--red-500);
+}
+
+/* A droplet-capped rule in place of a flat bar. */
+.rule {
+  position: relative;
+  width: 72px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--red-500), transparent);
+  overflow: visible;
+}
+
+.rule::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--red-500);
+  border-radius: 0 50% 50% 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* ---------- Buttons: softer corners, flatter fill ---------- */
+
+.btn,
+.mbtn {
+  border-radius: 14px;
+}
+
+.mbtn__icon {
+  border-radius: 10px;
+}
+
+.btn--primary,
+.mbtn--solid {
+  background: linear-gradient(135deg, var(--red-700), var(--red-500));
+}
+
+/* ---------- Header ---------- */
+
+.hdr__link {
+  border-radius: 8px;
+}
+
+.hdr__link.is-active {
+  background: none;
+  color: var(--red-700);
+}
+
+.hdr__phone {
+  border-radius: 14px;
+}
+
+/* ==========================================================================
+   HERO — light
+   ========================================================================== */
+
+html .hero {
+  --hero-bg: #fff6f4;
+  --hero-lift: #ffffff;
+  --hero-ink: #1c1112;
+  --hero-soft: rgba(28, 17, 18, 0.74);
+  --hero-muted: rgba(28, 17, 18, 0.5);
+  --hero-line: rgba(184, 22, 30, 0.28);
+
+  background:
+    radial-gradient(70% 90% at 82% 38%, #ffe3df 0%, rgba(255, 227, 223, 0) 70%),
+    linear-gradient(180deg, #ffffff 0%, #fff4f2 100%);
+}
+
+/* The blooms become two large soft discs. */
+html .hero::before {
+  filter: blur(0);
+  width: clamp(380px, 46vw, 680px);
+  height: clamp(380px, 46vw, 680px);
+  top: auto;
+  bottom: -38%;
+  left: -14%;
+  background: radial-gradient(circle, rgba(237, 34, 41, 0.1) 0%, transparent 68%);
+}
+
+html .hero::after {
+  filter: blur(0);
+  width: clamp(300px, 36vw, 520px);
+  height: clamp(300px, 36vw, 520px);
+  right: -8%;
+  top: -16%;
+  bottom: auto;
+  background: radial-gradient(circle, rgba(237, 34, 41, 0.14) 0%, transparent 66%);
+}
+
+html .hero__eyebrow {
+  color: var(--red-700);
+  border-bottom: 0;
+  padding-bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+html .hero__eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 1.5px;
+  background: var(--red-500);
+}
+
+html .hero__word.is-accent {
+  background: linear-gradient(104deg, var(--red-800), var(--red-500) 60%, var(--red-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html .hero__sub-item {
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: var(--ink-soft);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 0 0 1px var(--red-200),
+    0 6px 16px -10px rgba(184, 22, 30, 0.35);
+}
+
+html .hero__sub-item:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--red-400),
+    0 10px 20px -10px rgba(184, 22, 30, 0.45);
+}
+
+html .hero__lede {
+  color: var(--body);
+}
+
+html .mbtn--solid {
+  box-shadow: 0 16px 34px -16px rgba(184, 22, 30, 0.7);
+}
+
+html .mbtn--glass {
+  color: var(--red-800);
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: inset 0 0 0 1.5px var(--red-300);
+}
+
+html .mbtn--glass:hover {
+  color: var(--red-900);
+  background: var(--red-050);
+  box-shadow: inset 0 0 0 1.5px var(--red-600);
+}
+
+/* ----- The picture: an arch, with a solid red slab and a ring behind it ----- */
+
+.ba::before {
+  inset: 2% -14% -10% 8%;
+  background: radial-gradient(closest-side, rgba(237, 34, 41, 0.22), transparent 74%);
+}
+
+/* The fanned ghost frames are gone; one solid offset slab and a ring replace
+   them, so the print sits on a plinth rather than at the top of a stack. */
+html .ba__ghost--1 {
+  inset: 22px -22px -22px 22px;
+  border-radius: 150px 150px 26px 26px;
+  background: linear-gradient(160deg, var(--red-600), var(--red-900));
+  box-shadow: none;
+  transform: none;
+}
+
+html .ba__ghost--2 {
+  inset: -26px 30px 34px -26px;
+  border-radius: 50%;
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--red-300);
+  transform: none;
+}
+
+html .ba__frame {
+  border-radius: 150px 150px 24px 24px;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 6px #ffffff,
+    0 36px 70px -34px rgba(122, 11, 16, 0.55);
+}
+
+/* The collages are contained, so the arch only trims empty paper at the top;
+   the stamp drops below the curve to stay on the picture. */
+html .ba__stamp {
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+html .ba__edge {
+  display: none;
+}
+
+html .ba__vignette {
+  background: linear-gradient(to top, rgba(58, 20, 24, 0.55), transparent);
+}
+
+/* ==========================================================================
+   TRUST BAR — solid red
+   ========================================================================== */
+
+.trust {
+  background: linear-gradient(115deg, var(--red-900), var(--red-700) 55%, var(--red-800));
+  border-block: 0;
+}
+
+.trust__item {
+  border-right-color: rgba(255, 255, 255, 0.2);
+}
+
+.trust__ic {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.34);
+  box-shadow: none;
+}
+
+.trust__item:hover .trust__ic {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.trust__value {
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  color: #ffffff;
+}
+
+.trust__label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==========================================================================
+   SECTIONS & CARDS
+   ========================================================================== */
+
+.section--cream {
+  background: linear-gradient(180deg, var(--cream), #ffffff);
+}
+
+/* ----- About ----- */
+
+.about__panel {
+  background: linear-gradient(160deg, #ffffff 0%, var(--blush) 100%);
+  border: 0;
+  box-shadow: 0 30px 60px -36px rgba(122, 11, 16, 0.4);
+  border-radius: 150px 150px var(--r-lg) var(--r-lg);
+  padding-top: clamp(64px, 7vw, 92px);
+}
+
+.about__panel-mark {
+  margin-inline: auto;
+}
+
+.about__panel-title {
+  text-align: center;
+}
+
+/* ----- Treatments: numbered cards ----- */
+
+.services__grid {
+  counter-reset: svc;
+}
+
+.svc {
+  counter-increment: svc;
+  padding: clamp(28px, 3vw, 38px) clamp(24px, 2.6vw, 32px);
+  border: 0;
+  border-radius: var(--r-lg);
+  background: linear-gradient(170deg, #ffffff, var(--red-050));
+  box-shadow: 0 22px 44px -32px rgba(122, 11, 16, 0.42);
+}
+
+.svc::before {
+  content: counter(svc, decimal-leading-zero);
+  position: absolute;
+  top: 12px;
+  right: 22px;
+  font-family: var(--font-display);
+  font-size: 3.6rem;
+  font-weight: 600;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--red-200);
+  pointer-events: none;
+}
+
+.svc__ic {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--red-700), var(--red-500));
+  border: 0;
+  box-shadow: 0 12px 22px -10px rgba(184, 22, 30, 0.6);
+}
+
+.svc:hover .svc__ic {
+  transform: scale(1.06);
+}
+
+.svc:hover {
+  border-color: transparent;
+}
+
+/* ----- Why us: blush tiles, left-aligned ----- */
+
+.why__item {
+  text-align: left;
+  border: 0;
+  border-radius: var(--r-lg) var(--r-lg) var(--r-lg) 6px;
+  background: var(--blush);
+  box-shadow: none;
+  border-top: 3px solid var(--red-500);
+}
+
+.why__item:hover {
+  box-shadow: 0 22px 40px -28px rgba(122, 11, 16, 0.5);
+}
+
+.why__ic {
+  margin: 0 0 18px;
+  border-radius: 16px;
+  color: #ffffff;
+  background: var(--red-700);
+  border: 0;
+}
+
+.why__item h3 {
+  font-size: 1.22rem;
+}
+
+/* ----- FAQ ----- */
+
+.qa {
+  border: 0;
+  border-radius: 22px;
+  box-shadow: 0 14px 30px -24px rgba(122, 11, 16, 0.45);
+}
+
+.qa.is-open {
+  box-shadow:
+    inset 4px 0 0 var(--red-600),
+    0 18px 36px -24px rgba(122, 11, 16, 0.5);
+}
+
+/* ----- Form + booking ----- */
+
+.booking__card {
+  border: 0;
+  border-radius: var(--r-xl) var(--r-xl) var(--r-lg) var(--r-lg);
+  box-shadow: 0 40px 70px -40px rgba(122, 11, 16, 0.45);
+}
+
+.field__wrap,
+.field input,
+.field select {
+  border-radius: 14px;
+}
+
+/* ==========================================================================
+   FOOTER — light
+   ========================================================================== */
+
+.ftr {
+  --f-ink: var(--rose-ink);
+  --f-body: rgba(58, 20, 24, 0.78);
+  --f-muted: rgba(58, 20, 24, 0.58);
+  --f-line: rgba(184, 22, 30, 0.2);
+  --f-accent: var(--red-700);
+
+  background: linear-gradient(180deg, #fff1ee 0%, #ffe6e2 100%);
+  border-top: 5px solid var(--red-600);
+}
+
+.ftr__brand img {
+  background: #ffffff;
+  box-shadow: 0 14px 28px -18px rgba(122, 11, 16, 0.5);
+}
+
+.ftr__social a {
+  border-color: var(--red-300);
+  background: #ffffff;
+  color: var(--red-700);
+}
+
+.ftr__social a:hover {
+  background: var(--red-700);
+  color: #ffffff;
+}
+
+.ftr__mail,
+.ftr__phone {
+  border-color: var(--red-300);
+  background: #ffffff;
+  border-radius: 14px;
+}
+
+.ftr__mail:hover,
+.ftr__phone:hover {
+  background: var(--red-050);
+  border-color: var(--red-600);
+  color: var(--red-900);
+}
+
+.ftr__links a:hover,
+.ftr__legal a:hover {
+  color: var(--red-700);
+}
+
+.ftr__branch-map {
+  border-color: var(--red-200);
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+@media (max-width: 1080px) {
+  html .ba__ghost--1 {
+    inset: 16px -14px -14px 14px;
+  }
+}
+
+/* The shared shimmer peaks at a pale pink, which a thin serif cannot carry —
+   headline accents use the deep ramp instead. */
+.accent-text,
+.gold-text {
+  background: linear-gradient(110deg, var(--red-800), var(--red-600) 45%, var(--red-700) 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: none;
+  font-style: italic;
+  padding-right: 0.06em;
+}
+
+.eyebrow::before,
+.section-head .eyebrow::after {
+  flex: none;
+}
